@@ -77,7 +77,6 @@
     <Compile Include="Components\DynamicTree.xaml.cs">
       <DependentUpon>DynamicTree.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Components\IDynamicTreeModel.cs" />
     <Compile Include="MainApp.xaml.cs">
       <DependentUpon>MainApp.xaml</DependentUpon>
       <SubType>Code</SubType>

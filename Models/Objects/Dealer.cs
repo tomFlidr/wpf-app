@@ -1,10 +1,12 @@
 ﻿using Databasic;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+using App.Components;
 
 namespace Models.Objects {
 	[Table("Dealers")]
-	public class Dealer: Object {
+	public class Dealer: Object, IDynamicTreeModel {
 		public string Name { get; set; }
 		public string Surname { get; set; }
 		public string Description { get; set; }
@@ -12,6 +14,8 @@ namespace Models.Objects {
 		public double TurnOverInclVat { get; set; }
 
         public int? ClientsCount;
+
+		public int? ChildsCount;
 
 		public Dictionary<int, Order> GetOrders () {
 			return Statement.Prepare($@"
@@ -66,6 +70,61 @@ namespace Models.Objects {
 				WHERE o.IdDealer = @id AND o.IdClient IS NOT NULL
 				GROUP BY o.IdClient
 			)", new { id = this.Id.Value });
+		}
+
+		public List<IDynamicTreeModel> GetChildsByParentId (string id = "") {
+			List<Dealer> r;
+			if (String.IsNullOrEmpty(id)) {
+				r = Databasic.Statement.Prepare(@"
+					SELECT 
+						*, 
+						(
+							SELECT COUNT(*) AS Cnt
+							FROM dbo.Dealers d
+							WHERE d.IdParent = (
+								SELECT d.Id
+								FROM dbo.Dealers d
+								WHERE d.IdParent IS NULL
+							)
+						) AS ChildsCount
+					FROM dbo.Dealers d
+					WHERE d.IdParent IS NULL
+				").FetchAll().ToList<Dealer>();
+			} else {
+				r = Databasic.Statement.Prepare(@"
+					SELECT d.*, ISNULL(counts.ChildsCount, 0) AS ChildsCount
+					FROM dbo.Dealers d
+					LEFT JOIN (
+						SELECT d.IdParent, COUNT(d.IdParent) As ChildsCount
+						FROM dbo.Dealers d
+						WHERE 
+							d.IdParent IN (
+								SELECT d.Id
+								FROM dbo.Dealers d
+								WHERE d.IdParent = @parentId1
+							)
+						GROUP BY d.IdParent
+					) counts ON
+						counts.IdParent = d.Id
+					WHERE d.IdParent = @parentId2;
+				").FetchAll(new {
+					parentId1 = id,
+					parentId2 = id
+				}).ToList<Dealer>();
+			};
+			return r.ToList<IDynamicTreeModel>();
+			//return (
+			//	from d in r
+			//	select d as IDynamicTreeModel
+			//).ToList<IDynamicTreeModel>();
+		}
+
+		public bool GetHashChilds () {
+			return this.ChildsCount.HasValue && this.ChildsCount.Value > 0;
+		}
+
+		public string GetId () {
+			return this.Id.Value.ToString();
 		}
 	}
 }

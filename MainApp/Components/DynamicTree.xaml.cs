@@ -52,7 +52,7 @@ namespace App.Components {
 		private Type _modelClass = null;
 
 		private void _loadSubItems (IDynamicTreeModel item, ItemCollection items) {
-
+			Console.WriteLine(items.Count);
 		}
 
 		public DynamicTree () {
