@@ -8,11 +8,14 @@
         Title="MainWindow" Height="350" Width="525">
     <Grid>
 		<local:Accordion 
-			DefaultExpandedIndex="1"
+			DefaultExpandedIndex="0"
 			AnimationStyle="Slow">
 			<Expander 
 				Header="first">
-				<Rectangle Fill="Black"/>
+
+
+				<local:DynamicTree ModelClass="Models:Models.Objects.Dealer" />
+				
 			</Expander>
 			<Expander Header="second">
 				<Rectangle Fill="Black"/>

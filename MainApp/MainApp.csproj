@@ -54,11 +54,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Tools.cs" />
     <Page Include="Components\Accordion.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Components\AccordionExpander.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\DynamicTree.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -69,6 +74,10 @@
     <Compile Include="Components\Accordion.xaml.cs">
       <DependentUpon>Accordion.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Components\DynamicTree.xaml.cs">
+      <DependentUpon>DynamicTree.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Components\IDynamicTreeModel.cs" />
     <Compile Include="MainApp.xaml.cs">
       <DependentUpon>MainApp.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -109,6 +118,10 @@
     <ProjectReference Include="..\Components\Styles.csproj">
       <Project>{0797c812-ea1c-46c1-a8b2-1b8ee671f38f}</Project>
       <Name>Styles</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <Project>{cdb711ab-af5c-4f1f-9504-6d21f9da7767}</Project>
+      <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
