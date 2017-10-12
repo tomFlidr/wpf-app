@@ -10,15 +10,15 @@
 		<local:Accordion 
 			DefaultExpandedIndex="1"
 			AnimationStyle="Slow">
-
-			<Expander Header="first">
-				
+			<Expander 
+				Header="first">
+				<Button Content="First" />
 			</Expander>
 			<Expander Header="second">
-
+				<Button Content="second" />
 			</Expander>
 			<Expander Header="third">
-
+				<Button Content="third" />
 			</Expander>
 
 		</local:Accordion>

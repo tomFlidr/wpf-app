@@ -6,5 +6,12 @@
              xmlns:local="clr-namespace:Components"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-      <Button Content="Accordion content" />
+	<!--<Grid.RowDefinitions>
+		<RowDefinition Height="100" />
+		<RowDefinition Height="1*" />
+		<RowDefinition Height="100" />
+	</Grid.RowDefinitions>
+	<Label Content="asdfa" 
+		   Grid.Column="0"
+		   Grid.Row="0" />-->
 </Grid>
