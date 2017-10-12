@@ -34,8 +34,7 @@ namespace App.Components {
 		}
 		private int _defaultExpandedIndex = 0;
 		private bool _fistTimeRender = false;
-		private double _expanderHeight = 23;
-		private bool _doNoExpand = false;
+		private double _expanderHeight = 29;
 
 		public Accordion () {
 			this.InitializeComponent();
@@ -71,6 +70,7 @@ namespace App.Components {
 					ex.IsExpanded = true;
 					ex.Tag = i;
 				}
+				ex.Style = this.FindResource("AccordionExpander") as System.Windows.Style;
 
 				i++;
 			}
@@ -78,8 +78,9 @@ namespace App.Components {
 		}
 		private RoutedEventHandler _handlerProvider (int i, bool collapsed) {
 			return (object o, RoutedEventArgs e) => {
-				//this._collapseAll();
-				this.RowDefinitions[this._defaultExpandedIndex].Height = new GridLength(this._expanderHeight);
+				this.RowDefinitions[this._defaultExpandedIndex].Height = new GridLength(
+					this._expanderHeight
+				);
 				if (collapsed && this.Children.Count > 1) {
 					int next = i + 1;
 					if (next == this.Children.Count) {
@@ -92,40 +93,35 @@ namespace App.Components {
 				//this.UpdateLayout(); // kvůli stretch alignu to radej prekresluji
 			};
 		}
-		private void _collapseAll () {
-			foreach (var item in this.RowDefinitions) {
-				item.Height = new GridLength(this._expanderHeight);
-			}
-		}
 		private void _expand (int i) {
 			this.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
-			((Expander)this.Children[i]).IsExpanded = true; // automaticky rozbalí expander - okamžitě
+			(this.Children[i] as Expander).IsExpanded = true; // automaticky rozbalí expander - okamžitě
 			this._defaultExpandedIndex = i;
 		}
 
-		public void DispatchEvent (object source, string eventName, EventArgs eventArgs) {
-			EventInfo eventObject = source.GetType().GetEvent(eventName);
+		//public void DispatchEvent (object source, string eventName, EventArgs eventArgs) {
+		//	EventInfo eventObject = source.GetType().GetEvent(eventName);
 
 
-			if (eventObject != null) {
-				IEnumerable<FieldInfo> fis = source.GetType().GetRuntimeFields();
-				foreach (FieldInfo fi in fis) {
+		//	if (eventObject != null) {
+		//		IEnumerable<FieldInfo> fis = source.GetType().GetRuntimeFields();
+		//		foreach (FieldInfo fi in fis) {
 
-					if (fi.Name == eventName + "Event") {
-						System.Delegate del = fi.GetValue(source) as System.Delegate;
+		//			if (fi.Name == eventName + "Event") {
+		//				System.Delegate del = fi.GetValue(source) as System.Delegate;
 
-						List<System.Delegate> invocationList = del.GetInvocationList().ToList();
+		//				List<System.Delegate> invocationList = del.GetInvocationList().ToList();
 
 
-						foreach (System.Delegate invItem in invocationList) {
-							invItem.DynamicInvoke(source, eventArgs);
+		//				foreach (System.Delegate invItem in invocationList) {
+		//					invItem.DynamicInvoke(source, eventArgs);
 
-						}
+		//				}
 
-					}
-				}
+		//			}
+		//		}
 
-			}
-		}
+		//	}
+		//}
 	}
 }

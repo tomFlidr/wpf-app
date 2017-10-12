@@ -12,13 +12,13 @@
 			AnimationStyle="Slow">
 			<Expander 
 				Header="first">
-				<Button Content="First" />
+				<Rectangle Fill="Black"/>
 			</Expander>
 			<Expander Header="second">
-				<Button Content="second" />
+				<Rectangle Fill="Black"/>
 			</Expander>
 			<Expander Header="third">
-				<Button Content="third" />
+				<Rectangle Fill="Black"/>
 			</Expander>
 
 		</local:Accordion>
