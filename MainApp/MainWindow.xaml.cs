@@ -20,6 +20,13 @@ namespace App {
 	public partial class MainWindow: Window {
 		public MainWindow () {
 			InitializeComponent();
+
+
+			this.tabs.Add(new TabItem {
+				Header = "nazev osoby",
+				Content = "osoba - form"
+			});
+			//this.tabs.Close += 
 		}
 
 		private void tree1Handler (object sender, Components.ItemDoubleClickEventArgs args) {

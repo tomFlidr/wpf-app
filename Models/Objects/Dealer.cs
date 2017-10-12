@@ -77,17 +77,20 @@ namespace Models.Objects {
 			if (String.IsNullOrEmpty(id)) {
 				r = Databasic.Statement.Prepare(@"
 					SELECT 
-						*, 
-						(
-							SELECT COUNT(*) AS Cnt
-							FROM dbo.Dealers d
-							WHERE d.IdParent = (
+						d.*, ISNULL(counts.ChildsCount, 0) AS ChildsCount
+					FROM dbo.Dealers d
+					LEFT JOIN (
+						SELECT d.IdParent, COUNT(d.IdParent) As ChildsCount
+						FROM dbo.Dealers d
+						WHERE 
+							d.IdParent IN (
 								SELECT d.Id
 								FROM dbo.Dealers d
 								WHERE d.IdParent IS NULL
 							)
-						) AS ChildsCount
-					FROM dbo.Dealers d
+						GROUP BY d.IdParent
+					) counts ON
+						counts.IdParent = d.Id
 					WHERE d.IdParent IS NULL
 				").FetchAll().ToList<Dealer>();
 			} else {

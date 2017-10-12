@@ -54,6 +54,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Components\TabPanelClosable.cs" />
+    <Compile Include="Components\TabPanelClosableHeader.xaml.cs">
+      <DependentUpon>TabPanelClosableHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tools.cs" />
     <Page Include="Components\Accordion.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -64,6 +68,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\DynamicTree.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Components\TabPanelClosableHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

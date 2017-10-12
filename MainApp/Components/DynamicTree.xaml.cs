@@ -54,21 +54,18 @@ namespace App.Components {
 				);
 				List<IDynamicTreeModel> fistNodes = dummyInstance.GetChildsByParentId("");
 				foreach (IDynamicTreeModel item in fistNodes) {
-
 					TreeViewItem treeItem = new TreeViewItem() {
-						Header = item.GetTreeNodeHeader(),
-						IsExpanded = true
+						Header = item.GetTreeNodeHeader()
 					};
+					if (item.GetHashChilds()) treeItem.Items.Add(null);
 					treeItem.Expanded += this.onExpanded;
 					treeItem.MouseDoubleClick += this.onDoubleClick;
-					treeItem.DataContext = item; // databázová entity
-					treeItem.Tag = false; // nebyly načtené podpoložky
+					treeItem.DataContext = item;
+					treeItem.Tag = false;
+
 					this.tree.Items.Add(treeItem);
 
-					this._loadSubItems(
-						item,
-						treeItem.Items
-					);
+					treeItem.IsExpanded = true; // load root node subitems
 				}
 			}
 		}

@@ -6,18 +6,16 @@
         xmlns:local="clr-namespace:App.Components"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
-    <Grid>
+    <DockPanel LastChildFill="True">
 		<local:Accordion 
+			Width="150"
 			DefaultExpandedIndex="0"
 			AnimationStyle="Slow">
 			<Expander 
 				Header="first">
-
-
 				<local:DynamicTree 
 					ModelClass="Models:Models.Objects.Dealer"
 					ItemDoubleClick="tree1Handler" />
-				
 			</Expander>
 			<Expander Header="second">
 				<Rectangle Fill="Black"/>
@@ -25,7 +23,11 @@
 			<Expander Header="third">
 				<Rectangle Fill="Black"/>
 			</Expander>
-
 		</local:Accordion>
-    </Grid>
+
+		<local:TabPanelClosable 
+			x:Name="tabs" />
+
+
+	</DockPanel>
 </Window>
