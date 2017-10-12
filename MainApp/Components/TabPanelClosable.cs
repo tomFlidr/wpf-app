@@ -19,7 +19,7 @@ namespace App.Components {
 	public delegate void TabCloseEventHandler (
 		TabPanelClosable sender, TabCloseEventArgs args
 	);
-	public class TabPanelClosable: TabPanel {
+	public class TabPanelClosable: TabControl {
 
 		public event TabCloseEventHandler Close;
 		public event TabCloseEventHandler BeforeClose;
@@ -31,7 +31,9 @@ namespace App.Components {
 			string header = tab.Header.ToString();
 			tab.Header = new TabPanelClosableHeader(this, header, tab);
 
-			return this.Children.Add(tab);
+			var r = this.Items.Add(tab);
+			this.SelectedItem = tab;
+			return r;
 		}
 		public void OnClose (TabItem tab) {
 			var args = new TabCloseEventArgs() {
@@ -42,7 +44,7 @@ namespace App.Components {
 				this.BeforeClose.Invoke(this, args);
 			}
 			if (!args.Handled) {
-				this.Children.Remove(tab);
+				this.Items.Remove(tab);
 			}
 			if (this.Close != null) {
 				this.Close.Invoke(this, args);

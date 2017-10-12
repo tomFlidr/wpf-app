@@ -1,4 +1,6 @@
-﻿using System;
+﻿using App.Forms;
+using Models.Objects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,15 +24,18 @@ namespace App {
 			InitializeComponent();
 
 
-			this.tabs.Add(new TabItem {
-				Header = "nazev osoby",
-				Content = "osoba - form"
-			});
+			
 			//this.tabs.Close += 
 		}
 
 		private void tree1Handler (object sender, Components.ItemDoubleClickEventArgs args) {
-			Console.WriteLine(args.ModelClassInstance.GetTreeNodeHeader());
+			var d = args.ModelClassInstance as Dealer;
+			var tab = new TabItem {
+				Header = args.ModelClassInstance.GetTreeNodeHeader(),
+				Content = new DealerForm(d)
+			};
+			this.tabs.Add(tab);
+			//this.tabs.UpdateLayout();
 		}
 	}
 }

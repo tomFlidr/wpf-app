@@ -7,6 +7,7 @@ using App.Components;
 namespace Models.Objects {
 	[Table("Dealers")]
 	public class Dealer: Object, IDynamicTreeModel {
+		//[ControlType("textarea"),ValidateBy(ClassName.myValidateMethod),Required]
 		public string Name { get; set; }
 		public string Surname { get; set; }
 		public string Description { get; set; }

@@ -58,6 +58,10 @@
     <Compile Include="Components\TabPanelClosableHeader.xaml.cs">
       <DependentUpon>TabPanelClosableHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\DealerForm.xaml.cs">
+      <DependentUpon>DealerForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SexyConverter.cs" />
     <Compile Include="Tools.cs" />
     <Page Include="Components\Accordion.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -72,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Components\TabPanelClosableHeader.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\DealerForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
