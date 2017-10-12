@@ -21,5 +21,9 @@ namespace App {
 		public MainWindow () {
 			InitializeComponent();
 		}
+
+		private void tree1Handler (object sender, Components.ItemDoubleClickEventArgs args) {
+			Console.WriteLine(args.ModelClassInstance.GetTreeNodeHeader());
+		}
 	}
 }

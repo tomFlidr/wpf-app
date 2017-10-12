@@ -126,5 +126,9 @@ namespace Models.Objects {
 		public string GetId () {
 			return this.Id.Value.ToString();
 		}
+
+		public string GetTreeNodeHeader () {
+			return $"{this.Name} {this.Surname}";
+		}
 	}
 }

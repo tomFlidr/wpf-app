@@ -14,7 +14,9 @@
 				Header="first">
 
 
-				<local:DynamicTree ModelClass="Models:Models.Objects.Dealer" />
+				<local:DynamicTree 
+					ModelClass="Models:Models.Objects.Dealer"
+					ItemDoubleClick="tree1Handler" />
 				
 			</Expander>
 			<Expander Header="second">

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 	<TreeView x:Name="tree">
-		<TreeViewItem Header="first">
+		<!--<TreeViewItem Header="first">
 			<TreeViewItem Header="first">
 				<TreeViewItem Header="first">
 
@@ -16,7 +16,7 @@
 
 			</TreeViewItem>
 
-		</TreeViewItem>
+		</TreeViewItem>-->
 		
 	</TreeView>
 </UserControl>

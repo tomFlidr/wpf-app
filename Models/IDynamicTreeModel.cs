@@ -9,5 +9,6 @@ namespace App.Components {
 		List<IDynamicTreeModel> GetChildsByParentId (string id = "");
 		bool GetHashChilds ();
 		string GetId ();
+		string GetTreeNodeHeader ();
 	}
 }

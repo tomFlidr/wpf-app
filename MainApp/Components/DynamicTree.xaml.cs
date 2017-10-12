@@ -14,10 +14,22 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace App.Components {
+
+	public class ItemDoubleClickEventArgs: EventArgs {
+		public IDynamicTreeModel ModelClassInstance { get; set; }
+		public TreeViewItem TreeViewItem { get; set; }
+	}
+
+	public delegate void ItemDoubleClickHandler (object sender, ItemDoubleClickEventArgs args);
+
 	/// <summary>
 	/// Interaction logic for DynamicTree.xaml
 	/// </summary>
 	public partial class DynamicTree: UserControl {
+
+
+		public event ItemDoubleClickHandler ItemDoubleClick;
+
 
 		public string ModelClass {
 			get { return _modelClass.FullName; }
@@ -42,9 +54,20 @@ namespace App.Components {
 				);
 				List<IDynamicTreeModel> fistNodes = dummyInstance.GetChildsByParentId("");
 				foreach (IDynamicTreeModel item in fistNodes) {
+
+					TreeViewItem treeItem = new TreeViewItem() {
+						Header = item.GetTreeNodeHeader(),
+						IsExpanded = true
+					};
+					treeItem.Expanded += this.onExpanded;
+					treeItem.MouseDoubleClick += this.onDoubleClick;
+					treeItem.DataContext = item; // databázová entity
+					treeItem.Tag = false; // nebyly načtené podpoložky
+					this.tree.Items.Add(treeItem);
+
 					this._loadSubItems(
 						item,
-						this.tree.Items
+						treeItem.Items
 					);
 				}
 			}
@@ -52,7 +75,43 @@ namespace App.Components {
 		private Type _modelClass = null;
 
 		private void _loadSubItems (IDynamicTreeModel item, ItemCollection items) {
-			Console.WriteLine(items.Count);
+			if (items.Count == 1 && items[0] == null) items.Clear();
+			List<IDynamicTreeModel> childs = item.GetChildsByParentId(item.GetId());
+			TreeViewItem treeItem;
+			foreach (var child in childs) {
+				// vizuální položka ve stromě
+				treeItem = new TreeViewItem() {
+					Header = child.GetTreeNodeHeader()
+				};
+				if (child.GetHashChilds()) treeItem.Items.Add(null);
+
+				treeItem.Expanded += this.onExpanded;
+				treeItem.PreviewMouseDoubleClick += this.onDoubleClick;
+				treeItem.DataContext = child; // databázová entity
+				treeItem.Tag = false; // nebyly načtené podpoložky
+
+				items.Add(treeItem);
+			}
+		}
+
+		private void onDoubleClick (object sender, MouseButtonEventArgs e) {
+			TreeViewItem treeItem = sender as TreeViewItem;
+			if (this.ItemDoubleClick != null) {
+				this.ItemDoubleClick.Invoke(this, new ItemDoubleClickEventArgs {
+					ModelClassInstance = treeItem.DataContext as IDynamicTreeModel,
+					TreeViewItem = treeItem
+				});
+			}
+			e.Handled = true;
+		}
+
+		private void onExpanded (object sender, RoutedEventArgs e) {
+			TreeViewItem treeItem = sender as TreeViewItem;
+			if (!(bool)treeItem.Tag) {
+				treeItem.Tag = true;
+				IDynamicTreeModel dataObject = treeItem.DataContext as IDynamicTreeModel;
+				this._loadSubItems(dataObject, treeItem.Items);
+			}
 		}
 
 		public DynamicTree () {
